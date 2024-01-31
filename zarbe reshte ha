@@ -1,0 +1,26 @@
+char* multiply(char* num1, char* num2) 
+{
+    int len1 = strlen(num1);
+    int len2 = strlen(num2);
+    char* result = (char*)malloc((len1 + len2 + 1) * sizeof(char));
+    memset(result, '0', len1 + len2);
+    result[len1 + len2] = '\0';
+    for (int i = len1 - 1; i >= 0; i--) 
+    {
+        int carry = 0;
+        for (int j = len2 - 1; j >= 0; j--) 
+        {
+            int product = (num1[i] - '0') * (num2[j] - '0') + (result[i + j + 1] - '0') + carry;
+            result[i + j + 1] = (product % 10) + '0';
+            carry = product / 10;
+        }
+        result[i] += carry;
+    }
+    int startIdx = 0;
+    while (result[startIdx] == '0' && result[startIdx + 1] != '\0') 
+    {
+        startIdx++;
+    }
+    memmove(result, result + startIdx, len1 + len2 - startIdx + 1);
+    return result;
+}
